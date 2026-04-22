@@ -11,7 +11,7 @@ const Login = () => {
         email,
         password,
       },{
-        withCredentials:true
+        withCredentials:true    // it is necessary to pass withCredentials to true in making api call
       });
       console.log(res);
     } catch (err) {
