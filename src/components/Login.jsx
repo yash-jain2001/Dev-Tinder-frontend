@@ -19,7 +19,7 @@ const Login = () => {
       },{
         withCredentials:true    // it is necessary to pass withCredentials to true in making api call
       });
-    //   console.log(res.data);
+      console.log(res.data);
     navigate("/")
       dispatch(addUser(res.data));
     } catch (err) {
