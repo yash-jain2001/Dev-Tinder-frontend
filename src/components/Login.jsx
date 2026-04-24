@@ -8,21 +8,27 @@ import { BASE_URL } from "../utils/constants";
 const Login = () => {
   const [email, setEmail] = useState("viratkohli@gmail.com");
   const [password, setPassword] = useState("Virat@123");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(BASE_URL+"/login", {
-        email,
-        password,
-      },{
-        withCredentials:true    // it is necessary to pass withCredentials to true in making api call
-      });
+      const res = await axios.post(
+        BASE_URL + "/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true, // it is necessary to pass withCredentials to true in making api call
+        },
+      );
       console.log(res.data);
-    navigate("/")
+      navigate("/");
       dispatch(addUser(res.data));
     } catch (err) {
+      setError(err.response.data);
       console.error(err.message);
     }
   };
@@ -50,6 +56,7 @@ const Login = () => {
           placeholder="Password"
         />
 
+        <p className="text-red-500 mt-2 ml-1">{error ? "ERROR: "+error : null}</p>
         <button onClick={handleLogin} className="btn btn-neutral mt-4">
           Login
         </button>
