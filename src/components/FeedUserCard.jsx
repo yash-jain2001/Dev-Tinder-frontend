@@ -1,17 +1,16 @@
 import React from 'react'
 
-const UserCard = ({user}) => {
+const FeedUserCard = ({user}) => {
     // console.log(user);
-    const {firstName,lastName,profilePic,skills,age,gender} = user
+    const {firstName,lastName,profilePicture,skills,age,gender,about} = user
     
   return (
-    <div className="card bg-base-300 w-96 shadow-sm hover:shadow-gray-500/20 hover:shadow-lg duration-300">
-  <figure>
+    <div className="card bg-base-300 w-80 h-[450px]  shadow-sm hover:shadow-gray-500/20 hover:shadow-lg duration-300">
+  <figure className='h-[50%] w-full'>
     <img
-      src="https://tse4.mm.bing.net/th/id/OIP.kBZT2T0iZjUvImLvIsID7wHaEc?pid=Api&P=0&h=180"
-    //   src={profilePic}
+      src={profilePicture}
       alt="user" 
-      className='w-full object-contain'
+      className='w-full h-full object-cover'
       />
   </figure>
   <div className="card-body flex items-center">
@@ -22,6 +21,7 @@ const UserCard = ({user}) => {
         <div className="badge badge-soft badge-primary">{skill.toString().toUpperCase()}</div>
     ))}
     </div>
+    <p>{about}</p>
     <div className="card-actions justify-between mt-5 w-full">
       <button className="btn btn-info w-1/3">Interested</button>
       <button className="btn btn-error w-1/3">Skip</button>
@@ -31,4 +31,4 @@ const UserCard = ({user}) => {
   )
 }
 
-export default UserCard
+export default FeedUserCard

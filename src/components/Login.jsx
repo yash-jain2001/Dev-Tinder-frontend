@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { removeFeed } from "../utils/feedSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
@@ -25,8 +26,9 @@ const Login = () => {
         },
       );
       console.log(res.data);
-      navigate("/");
       dispatch(addUser(res.data));
+      dispatch(removeFeed());
+      navigate("/");
     } catch (err) {
       setError(err.response.data);
       console.error(err.message);
