@@ -1,11 +1,13 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { Link, Links, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const [currentTab, setCurrentTab] = useState("/connections");
+
   const user = useSelector((store) => store.user);
   // console.log(user);
   const dispatch = useDispatch();
@@ -13,9 +15,13 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post(BASE_URL + "/logout",{}, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        BASE_URL + "/logout",
+        {},
+        {
+          withCredentials: true,
+        },
+      );
       // console.log(res.data);
       dispatch(removeUser());
       navigate("/login");
@@ -25,13 +31,19 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-300 shadow-sm">
-      <div className="flex-1">
+    <div className="navbar bg-base-300 shadow-sm justify-between">
+      <div className="flex">
         <Link to="/" className="text-xl cursor-pointer ml-4">
           Dev Tinder 🧑‍💻
         </Link>
       </div>
-      <div className="flex gap-2 mr-8">
+
+
+      <div className="flex gap-10 mr-8">
+      <div className="indicator">
+        {/* <span className="indicator-item badge badge-secondary">{}</span> */}
+        <Link to="/requests" className="btn">Requests</Link>
+      </div>
         {user && (
           <div className="dropdown dropdown-end">
             <div className="flex items-center">
@@ -59,12 +71,9 @@ const Navbar = () => {
                 <Link to="/profile" className="justify-between">
                   Profile
                 </Link>
-              </li>
-              <li>
-                <Link to="/connections">My Connections</Link>
-              </li>
-              <li>
-                <Link to="/requests">My Requests</Link>
+                <Link to="/connections" className="justify-between">
+                  My Connections
+                </Link>
               </li>
               <li>
                 <Link onClick={handleLogout}>Logout</Link>

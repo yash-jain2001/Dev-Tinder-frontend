@@ -40,10 +40,10 @@ const Connections = () => {
       </div>
 
       <div className="px-10">
-        {connections.map((connection) => {
+        {connections.map((connection,idx) => {
             const {firstName, lastName, gender, age, email, skills, about, profilePicture} = connection;
         return (
-          <div className="card border border-gray-400 card-side bg-base-300 shadow-sm w-1/3 h-[300PX]">
+          <div key={idx} className="card border border-gray-400 card-side bg-base-300 shadow-sm w-1/3 h-[300PX]">
             <figure className="w-[50%] h-full bg-red-400">
               <img
               className="h-full w-full object-cover"
