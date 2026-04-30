@@ -20,7 +20,7 @@ const Feed = () => {
         withCredentials: true,
       });
       // console.log(res.data);
-      dispatch(addFeed(res.data));
+      dispatch(addFeed(res?.data?.data));
     } catch (err) {
       console.log(err);
     }
@@ -29,8 +29,13 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, []);
-if(!feed) return
-if(feed.length<=0) return <h1 className="text-center w-full text-4xl font-bold">No more new users found</h1>
+  if (!feed) return <div className="text-center w-full text-4xl font-bold text">No more user found</div>
+  if (feed.length <= 0)
+    return (
+      <h1 className="text-center w-full text-4xl font-bold">
+        No more new users found
+      </h1>
+    );
   return (
     feed && (
       <div className="flex items-center justify-center mt-10">
