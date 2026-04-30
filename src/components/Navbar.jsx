@@ -1,12 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
-import { Link, Links, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const [currentTab, setCurrentTab] = useState("/connections");
 
   const user = useSelector((store) => store.user);
   // console.log(user);
@@ -41,8 +39,6 @@ const Navbar = () => {
 
       <div className="flex gap-10 mr-8">
       <div className="indicator">
-        {/* <span className="indicator-item badge badge-secondary">{}</span> */}
-        <Link to="/requests" className="btn">Requests</Link>
       </div>
         {user && (
           <div className="dropdown dropdown-end">
@@ -73,6 +69,9 @@ const Navbar = () => {
                 </Link>
                 <Link to="/connections" className="justify-between">
                   My Connections
+                </Link>
+                <Link to="/requests" className="justify-between">
+                  Requests
                 </Link>
               </li>
               <li>

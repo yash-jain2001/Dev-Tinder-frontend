@@ -39,7 +39,7 @@ const Connections = () => {
         My Connections
       </div>
 
-      <div className="px-10">
+      <div className="px-10 flex flex-wrap gap-6">
         {connections.map((connection,idx) => {
             const {firstName, lastName, gender, age, email, skills, about, profilePicture} = connection;
         return (

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { removeFeed } from "../utils/feedSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
@@ -12,6 +11,14 @@ const Login = () => {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const user = useSelector((store) => store.user);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleLogin = async () => {
     try {
@@ -27,7 +34,7 @@ const Login = () => {
       );
       console.log(res.data);
       dispatch(addUser(res.data));
-      dispatch(removeFeed());
+      // dispatch(removeFeed());
       navigate("/");
     } catch (err) {
       setError(err.response.data);
