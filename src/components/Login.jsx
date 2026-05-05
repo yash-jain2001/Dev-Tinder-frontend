@@ -60,70 +60,99 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center h-screen">
-      <fieldset className="fieldset bg-base-200 border-base-00 rounded-box w-xs h-fit border p-4">
-        <legend className="fieldset-legend font-bold text-xl">
-          {isLoginForm ? "Login" : "Sign Up"}
-        </legend>
+    <div className="flex items-center justify-center min-h-[calc(100vh-200px)] py-12 px-4">
+      <div className="glass-card w-full max-w-md p-8 rounded-3xl shadow-2xl space-y-8 animate-in fade-in zoom-in duration-500">
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl font-extrabold tracking-tight text-white">
+            {isLoginForm ? "Welcome Back" : "Create Account"}
+          </h2>
+          <p className="text-sm text-white/60">
+            {isLoginForm 
+              ? "Sign in to connect with developers worldwide" 
+              : "Join the largest community of passionate developers"}
+          </p>
+        </div>
 
-        {!isLoginForm && (
-          <>
-            <label className="label text-base">First Name</label>
+        <div className="space-y-4">
+          {!isLoginForm && (
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-white/70 ml-1 uppercase tracking-wider">First Name</label>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="input input-bordered w-full bg-white/5 border-white/10 focus:border-primary transition-all rounded-xl"
+                  placeholder="John"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-white/70 ml-1 uppercase tracking-wider">Last Name</label>
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="input input-bordered w-full bg-white/5 border-white/10 focus:border-primary transition-all rounded-xl"
+                  placeholder="Doe"
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-white/70 ml-1 uppercase tracking-wider">Email Address</label>
             <input
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="input"
-              placeholder="Jhon"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input input-bordered w-full bg-white/5 border-white/10 focus:border-primary transition-all rounded-xl"
+              placeholder="name@example.com"
             />
-            <label className="label text-base">Last Name</label>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-white/70 ml-1 uppercase tracking-wider">Password</label>
             <input
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              className="input"
-              placeholder="Doe"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input input-bordered w-full bg-white/5 border-white/10 focus:border-primary transition-all rounded-xl"
+              placeholder="••••••••"
             />
-          </>
+          </div>
+        </div>
+
+        {error && (
+          <div className="alert alert-error bg-error/10 border-error/20 text-error text-xs py-2 rounded-xl animate-shake">
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-4 w-4" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>{error}</span>
+          </div>
         )}
 
-        <label className="label text-base">Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="input"
-          placeholder="Email"
-        />
+        <div className="space-y-4">
+          <button
+            onClick={isLoginForm ? handleLogin : handleSignUp}
+            className="btn btn-primary w-full rounded-xl text-lg font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1"
+          >
+            {isLoginForm ? "Sign In" : "Sign Up"}
+          </button>
 
-        <label className="label text-base">Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="input"
-          placeholder="Password"
-        />
-
-        <p className="text-red-500 mt-2 ml-1">
-          {error ? "ERROR: " + error : null}
-        </p>
-        <button
-          onClick={isLoginForm ? handleLogin : handleSignUp}
-          className="btn btn-neutral mt-4"
-        >
-          {isLoginForm ? "Login" : "Sign Up"}
-        </button>
-
-        <p
-          className="text-center mt-2 cursor-pointer"
-          onClick={() => setIsLoginForm(!isLoginForm)}
-        >
-          {isLoginForm
-            ? "Don't have an account? Create account"
-            : "Already have an account?"}
-        </p>
-      </fieldset>
+          <div className="text-center">
+            <p className="text-sm text-white/50">
+              {isLoginForm ? "New to Dev Tinder?" : "Already have an account?"}
+              <button
+                className="ml-2 text-primary font-bold hover:underline"
+                onClick={() => {
+                  setIsLoginForm(!isLoginForm);
+                  setError("");
+                }}
+              >
+                {isLoginForm ? "Create Account" : "Log In"}
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

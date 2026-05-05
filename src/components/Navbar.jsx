@@ -2,6 +2,9 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
+import { clearFeed } from "../utils/feedSlice";
+import { clearRequests } from "../utils/requestSlice";
+import { removeConnections } from "../utils/connectionSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -13,7 +16,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post(
+      await axios.post(
         BASE_URL + "/logout",
         {},
         {
@@ -22,6 +25,9 @@ const Navbar = () => {
       );
       // console.log(res.data);
       dispatch(removeUser());
+      dispatch(clearFeed());
+      dispatch(clearRequests());
+      dispatch(removeConnections());
       navigate("/login");
     } catch (err) {
       console.log(err.message);
@@ -29,53 +35,59 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-300 shadow-sm justify-between">
+    <div className="navbar glass-card sticky top-0 z-50 px-4 md:px-8 py-3 shadow-lg backdrop-blur-md bg-opacity-70 justify-between transition-all duration-300">
       <div className="flex">
-        <Link to="/" className="text-xl cursor-pointer ml-4">
+        <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hover:scale-105 transition-transform duration-200 cursor-pointer ml-4">
           Dev Tinder 🧑‍💻
         </Link>
       </div>
 
-
-      <div className="flex gap-10 mr-8">
-      <div className="indicator">
-      </div>
+      <div className="flex items-center gap-4 md:gap-8 mr-4">
         {user && (
           <div className="dropdown dropdown-end">
-            <div className="flex items-center">
-              <h4 className="text-md mr-4">
-                Welcome {user.firstName + " " + user.lastName} 👋
+            <div className="flex items-center gap-3 cursor-pointer group" tabIndex={0} role="button">
+              <h4 className="text-sm font-medium hidden md:block group-hover:text-primary transition-colors duration-200">
+                Welcome, {user.firstName} 👋
               </h4>
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar"
-              >
+              <div className="btn btn-ghost btn-circle avatar border-2 border-primary/20 group-hover:border-primary transition-all duration-200">
                 <div className="w-10 rounded-full">
                   <img
-                    alt="Tailwind CSS Navbar component"
-                    src={user.profilePicture}
+                    alt="User profile"
+                    src={user.profilePicture || "https://ui-avatars.com/api/?name=" + user.firstName}
                   />
                 </div>
               </div>
             </div>
             <ul
-              tabIndex="-1"
-              className="menu menu-sm bg-base-300 dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow"
+              tabIndex={0}
+              className="menu menu-sm bg-base-300/90 backdrop-blur-lg dropdown-content rounded-xl z-50 mt-4 w-56 p-2 shadow-2xl border border-white/5"
             >
+              <li className="menu-title px-4 py-2 text-xs opacity-50 uppercase tracking-wider font-bold">Account</li>
               <li>
-                <Link to="/profile" className="justify-between">
+                <Link to="/profile" className="flex justify-between py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors">
                   Profile
-                </Link>
-                <Link to="/connections" className="justify-between">
-                  My Connections
-                </Link>
-                <Link to="/requests" className="justify-between">
-                  Requests
+                  <span className="badge badge-sm badge-outline opacity-50">View</span>
                 </Link>
               </li>
               <li>
-                <Link onClick={handleLogout}>Logout</Link>
+                <Link to="/connections" className="flex justify-between py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors">
+                  My Connections
+                </Link>
+              </li>
+              <li>
+                <Link to="/requests" className="flex justify-between py-3 px-4 hover:bg-primary/10 rounded-lg transition-colors">
+                  Requests
+                  <span className="badge badge-sm badge-primary">New</span>
+                </Link>
+              </li>
+              <div className="divider my-1 opacity-20"></div>
+              <li>
+                <button 
+                  onClick={handleLogout}
+                  className="flex py-3 px-4 hover:bg-error/10 text-error rounded-lg transition-colors w-full text-left"
+                >
+                  Logout
+                </button>
               </li>
             </ul>
           </div>

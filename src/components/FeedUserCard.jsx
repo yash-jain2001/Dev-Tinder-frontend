@@ -22,30 +22,84 @@ const FeedUserCard = ({user}) => {
     }
     
   return (
-    <div className="card bg-base-300 w-80 h-[450px]  shadow-sm hover:shadow-gray-500/20 hover:shadow-lg duration-300">
-  <figure className='h-[50%] w-full'>
-    <img
-      src={profilePicture}
-      alt="user" 
-      className='w-full h-full object-cover'
-      />
-  </figure>
-  <div className="card-body flex items-center">
-    <h2 className="card-title">{firstName + " " +lastName}</h2>
-    {(age&&gender)&&<div className="badge badge-primary badge-sm">{gender.toUpperCase()}, {age}</div>}
-    <div className='flex flex-wrap gap-1 justify-center'>
-        {skills.map((skill)=>(
-        <div className="badge badge-soft badge-primary">{skill.toString().toUpperCase()}</div>
-    ))}
+    <div className="group relative w-full max-w-[380px] h-[550px] transition-all duration-500 [perspective:1000px]">
+      <div className="glass-card w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col transition-all duration-500 group-hover:shadow-primary/20 group-hover:-translate-y-2">
+        
+        {/* Image Container */}
+        <div className="relative h-[60%] w-full overflow-hidden">
+          <img
+            src={profilePicture || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=800"}
+            alt={`${firstName} ${lastName}`} 
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-base-300 via-transparent to-transparent opacity-60"></div>
+          
+          {/* Top Badges */}
+          <div className="absolute top-6 left-6 flex gap-2">
+            {age && (
+              <div className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-bold text-white shadow-xl">
+                {age} YRS
+              </div>
+            )}
+            {gender && (
+              <div className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-bold text-white shadow-xl">
+                {gender.toUpperCase()}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Content Body */}
+        <div className="flex-grow p-8 flex flex-col justify-between -mt-12 relative z-10 bg-base-300/40 backdrop-blur-xl rounded-t-[2.5rem]">
+          <div className="space-y-4">
+            <div className="space-y-1">
+              <h2 className="text-3xl font-black tracking-tight text-white group-hover:text-primary transition-colors duration-300">
+                {firstName} {lastName}
+              </h2>
+              <p className="text-sm text-white/60 line-clamp-2 italic">
+                "{about || "No bio yet..."}"
+              </p>
+            </div>
+
+            {/* Skills */}
+            <div className="flex flex-wrap gap-1.5">
+              {skills?.slice(0, 5).map((skill, index) => (
+                <span 
+                  key={index} 
+                  className="px-3 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold rounded-lg uppercase tracking-widest transition-all duration-300 hover:bg-primary hover:text-white"
+                >
+                  {skill.toString()}
+                </span>
+              ))}
+              {skills?.length > 5 && (
+                <span className="px-3 py-1 bg-white/5 border border-white/10 text-white/40 text-[10px] font-bold rounded-lg">
+                  +{skills.length - 5} MORE
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-4 mt-6">
+            <button 
+              onClick={() => handleSendRequest("ignored", _id)} 
+              className="flex-1 py-4 bg-white/5 hover:bg-error/20 border border-white/10 hover:border-error/50 text-white font-bold rounded-2xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 group/btn"
+            >
+              <span className="text-xl group-hover/btn:rotate-12 transition-transform">👎</span>
+              Skip
+            </button>
+            <button 
+              onClick={() => handleSendRequest("interested", _id)} 
+              className="flex-[1.5] py-4 bg-primary hover:bg-primary-focus text-white font-black rounded-2xl shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 group/btn"
+            >
+              <span className="text-xl group-hover/btn:scale-125 transition-transform">🔥</span>
+              Connect
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <p>{about}</p>
-    <div className="card-actions justify-between mt-5 w-full">
-      <button onClick={()=>handleSendRequest("interested",_id)} className="btn btn-info w-1/3">Interested</button>
-      <button onClick={()=>handleSendRequest("ignored",_id)} className="btn btn-error w-1/3">Skip</button>
-    </div>
-  </div>
-</div>
-  )
+  );
 }
 
 export default FeedUserCard

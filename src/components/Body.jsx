@@ -33,9 +33,11 @@ const Body = () => {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col font-sans gradient-bg overflow-x-hidden">
       <Navbar />
-      <Outlet />
+      <main className="flex-grow container mx-auto px-4 md:px-8 py-6">
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );

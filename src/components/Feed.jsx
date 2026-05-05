@@ -11,25 +11,24 @@ const Feed = () => {
   const feed = useSelector((store) => store.feed);
   console.log(feed);
 
-  const getFeed = async () => {
-    if (feed) {
-      return;
-    }
-    try {
-      const res = await axios.get(BASE_URL + "/feed", {
-        withCredentials: true,
-      });
-      // console.log(res.data);
-      dispatch(addFeed(res?.data?.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
+    const getFeed = async () => {
+      if (feed && feed.length > 0) {
+        return;
+      }
+      try {
+        const res = await axios.get(BASE_URL + "/feed", {
+          withCredentials: true,
+        });
+        // console.log(res.data);
+        dispatch(addFeed(res?.data?.data));
+      } catch (err) {
+        console.log(err);
+      }
+    };
     getFeed();
   }, []);
-  if (!feed) return <div className="text-center w-full text-4xl font-bold text">No more user found</div>
+  if (!feed) return <div className="text-center w-full text-4xl font-bold">No more user found</div>
   if (feed.length <= 0)
     return (
       <h1 className="text-center w-full text-4xl font-bold">
